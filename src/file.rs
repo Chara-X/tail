@@ -11,7 +11,7 @@ impl File {
             path: path.to_string(),
         })
     }
-    pub fn tail<W: io::Write>(&self, mut writer: W) -> notify::Result<()> {
+    pub fn fellow<W: io::Write>(&self, mut writer: W) -> notify::Result<()> {
         let mut reader = io::BufReader::new(&self.file);
         io::copy(&mut reader, &mut writer)?;
         writer.flush()?;
