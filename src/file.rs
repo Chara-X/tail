@@ -1,5 +1,5 @@
 use notify::Watcher;
-use std::{fs, io, sync::mpsc};
+use std::{fs, io, ops, sync::mpsc};
 pub struct File {
     file: fs::File,
     path: String,
@@ -25,5 +25,11 @@ impl File {
             }
         }
         Ok(())
+    }
+}
+impl ops::Deref for File {
+    type Target = fs::File;
+    fn deref(&self) -> &Self::Target {
+        &self.file
     }
 }
