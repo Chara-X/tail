@@ -37,3 +37,12 @@ impl ops::Deref for File {
         &self.file
     }
 }
+#[cfg(test)]
+mod test {
+    use super::*;
+    #[test]
+    fn test() {
+        let file = File::open("./README.md").unwrap();
+        file.fellow(io::stdout()).unwrap();
+    }
+}
