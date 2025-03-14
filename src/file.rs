@@ -1,5 +1,10 @@
 use notify::Watcher;
-use std::{fs, io, ops, sync::mpsc};
+use std::{
+    fs,
+    io::{self, Seek},
+    ops,
+    sync::mpsc,
+};
 pub struct File {
     file: fs::File,
     path: String,
@@ -13,8 +18,7 @@ impl File {
     }
     pub fn fellow<W: io::Write>(&self, mut writer: W) -> notify::Result<()> {
         let mut reader = io::BufReader::new(&self.file);
-        io::copy(&mut reader, &mut writer)?;
-        writer.flush()?;
+        reader.seek(io::SeekFrom::End(0))?;
         let (tx, rx) = mpsc::channel();
         let mut watcher = notify::recommended_watcher(tx)?;
         watcher.watch(self.path.as_ref(), notify::RecursiveMode::NonRecursive)?;
